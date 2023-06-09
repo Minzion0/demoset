@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.green.demo_to_do.cmt.CmtMapper">
+    <insert id="insBoardCmt" useGeneratedKeys="true" keyProperty="iboardCmt">
+        insert into t_board_cmt
+        set iboard=#{iboard}
+        ,iuser=#{iuser}
+        ,ctnt=#{ctnt}
+    </insert>
+    <delete id="delBoardCtm">
+        DELETE
+        FROM t_board_cmt
+        where
+        <if test="iboardCmt>0L and iuser>0L">
+            iboard_cmt=#{iboardCmt} and iuser = #{iuser}
+        </if>
+        <if test="iuser>0L">
+            iuser=#{iuser}
+        </if>
+        <if test="iboard>0L">
+            iboard=#{iboard}
+        </if>
+
+
+    </delete>
+
+    <select id="maxBoardcmt" resultType="int">
+        select count(iboard_cmt)
+        from t_board_cmt
+        where iboard=#{iboard}
+    </select>
+    <select id="selBoardCmt" resultType="CmtSelVo">
+        select iboard_cmt iboardCmt,iuser,ctnt,created_at createdAt
+        from t_board_cmt
+        where iboard=#{iboard}
+        limit #{stidx},#{row}
+    </select>
+    <update id="reBoardCmt">
+        update t_board_cmt
+        set ctnt=#{ctnt}
+        ,updated_at=now()
+        where iboard_cmt=#{iboardCmt} and iuser=#{iuser}
+    </update>
+</mapper>

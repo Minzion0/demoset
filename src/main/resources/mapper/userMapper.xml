@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.green.demo_to_do.user.UserMapper">
+    <insert id="joinUser">
+        insert into t_user
+        set uid=#{uid}
+        ,upw=#{upw}
+        ,nm=#{nm}
+        ,gender=#{gender}
+        ,addr=#{addr}
+    </insert>
+    <select id="userPw" resultType="String">
+        select upw
+        from t_user
+        where iuser=#{iuser}
+    </select>
+    <select id="loginUser" resultType="UserSelVo">
+        select
+        iuser,uid,upw,nm
+        from t_user
+        where uid=#{uid}
+
+    </select>
+    <update id="userMinPic">
+        update t_user
+        set main_pic=#{mainPic}
+        ,updated_at= now()
+        where iuser=#{iuser}
+    </update>
+    <delete id="delUser">
+        delete
+        from t_user
+        where iuser=#{iuser}
+    </delete>
+</mapper>

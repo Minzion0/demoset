@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.green.demo_to_do.board.BoardMapper">
+    <insert id="insBoard" useGeneratedKeys="true" keyProperty="iboard">
+        insert into t_board
+        set title=#{title}
+        ,ctnt=#{ctnt}
+        ,iuser=#{iuser}
+    </insert>
+    <select id="maxBoardPage" resultType="int">
+        select count(iboard)
+        from t_board
+    </select>
+    <select id="selBoard" resultType="BoardSelVo">
+        select
+        iboard,title,created_at createdAt
+        from t_board
+        order by iboard desc
+        limit #{stidx},#{row}
+    </select>
+    <select id="selDetBoard" resultType="BoardDetSelVo">
+        select
+        iboard,title,ctnt,created_at createdAt
+        from t_board
+        where iboard=#{iboard}
+    </select>
+    <update id="updBoard">
+        update t_board
+        set title=#{title}
+        ,ctnt=#{ctnt}
+        ,updated_at= now()
+        where iboard=#{iboard} and iuser=#{iuser}
+    </update>
+
+    <delete id="delBoard">
+        delete
+        from t_board
+        where
+        <if test="iboard>0 and iuser>0">
+            iboard=#{iboard}
+            and iuser=#{iuser}
+        </if>
+        <if test="iuser>0">
+            iuser=#{iuser}
+        </if>
+
+
+
+    </delete>
+
+</mapper>
